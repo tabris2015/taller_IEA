@@ -19,8 +19,49 @@ los siguientes paquetes y librerías:
 
 Antes de comenzar cualquier trabajo necesitamos configurar el entorno de python. Ingrese a una terminal y escriba los siguientes comandos:
 
+**Instalamos pip**
 ```bash
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get install build-essential python-dev python-devel python-pip
+sudo apt-get install build-essential python-dev python-devel python-pip gcc gfortran libblas-dev liblapack-dev cython
 ```
+**Instalamos numpy**
+
+```bash
+sudo pip install --upgrade numpy
+```
+
+**Instalamos scipy**
+
+```bash
+sudo pip install --upgrade scipy
+```
+
+**Instalamos matplotlib**
+```bash
+sudo pip install --upgrade matplotlib
+```
+
+**Probando la instalación**
+Para verificar si hemos instalado todo correctamente escribimos en una terminal:
+```bash
+python
+```
+se abrirá el intérprete de python:
+
+```
+Python 2.7.6 (default, Jun 22 2015, 17:58:13) 
+[GCC 4.8.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>
+```
+
+una vez dentro intentamos importar los paquetes instalados:
+
+```python
+import numpy
+import scipy
+import matplotlib.pyplot as plt
+```
+si logramos importar sin ningún problema quiere decir que la instalación de numpy ha sido exitosa. Ahora podemos ejecutar los ejemplos del día 2 concercientes a regresión lineal y regresión logística.
+
