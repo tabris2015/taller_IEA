@@ -161,3 +161,66 @@ export PKG_CONFIG_PATH
 ```
 
 Y listo! ya tenemos OpenCV instalado y configurado. Para probarlo necesitamos cerrar la terminal y reiniciar el equipo.
+
+## Ejecutando y modificando los programas (día 3)
+Para poder probar los ejemplos del día 3, el entrenador y el clasificador, con una webcam, necesitaremos clonar el repositorio de github ya sea descargando el zip o clonándolo directamente mediante git.
+
+Instalamos git en nuestro sistema:
+
+```bash
+sudo apt-get install git git-core
+```
+
+una vez instalado nos situamos en el directorio de trabajo, puede ser nuestros documentos, o directamente en el home y ejecutamos el siguiente comando en una terminal:
+
+```bash
+git clone https://github.com/tabris2015/taller_IEA.git
+```
+
+Se descargará el repositorio completo con la siguiente estructura:
+
+```bash
+taller_IEA/
+├── dia1
+│   └── presentacion
+│       └── presentación .odp
+├── dia2
+│   ├── algorithms.py
+│   ├── algorithms.pyc
+│   ├── ex1data1.txt
+│   ├── ex1data2.txt
+│   ├── ex2data1.txt
+│   ├── ex2data2.txt
+│   ├── filter.py
+│   ├── learn.py
+│   ├── linear_reg.py
+│   └── log_reg.py
+├── dia3
+│   ├── classifier.py
+│   └── trainer.py
+├── presentacion
+│   └── presentación .odp
+└── README.md
+
+```
+### Entrenando nuestro algoritmo (trainey.py)
+
+Navegamos hasta la carpeta `dia3` y ejecutamos el programa usando python:
+
+```bash
+cd taller_IEA/dia3
+sudo python trainey.py
+```
+
+>>El programa descargará el dataset MNIST de aproximadamente 50 MB solamente la primera vez que se ejecuta, luego, éste estará disponible usando la función `datasets.fetch_mldata("MNIST Original")` sin necesidad de realizar ninguna descarga
+
+Una vez que hayamos entrenado nuestro clasificador, podremos utilizarlo para detectar dígitos manuscritos usando OpenCV.
+
+### Usando el clasificador con OpenCV (classifier.py)
+
+Para probar el clasificador que acabamos de entrenar está disponible el script `classifier.py`, simplemente lo ejecutamos como lo vimos en el taller:
+
+```bash
+sudo python classifier.py
+```
+
