@@ -124,3 +124,84 @@ def gradientReg(theta, X, y, lamb):
 
 	return grad
 
+
+# RECOMMENDER SYSTEMS ALGORITHMS
+# the following functions are used for a collaborative filtering
+# algorithm for a recommmender system.
+def COFICostFunction(params, Y, R, num_users, num_products, num_features, lambd):
+
+	# params es un vector de dimensiones num_features*num_products*2
+	X = params[:num_products*num_features].reshape(num_products, num_features)
+	Theta = params[(-num_users*num_features):].reshape(num_users, num_features)
+	#COFICOSTFUNC Collaborative filtering cost function
+	#   [J, grad] = COFICOSTFUNC(params, Y, R, num_users, num_movies, ...
+	#   num_features, lambda) returns the cost and gradient for the
+	#  collaborative filtering problem.
+	#
+	    
+	# You need to return the following values correctly
+
+	J = (1/2.0) * np.sum(np.sum(((np.dot(X,Theta.T)-Y)**2)*R)) +  \
+		(lambd/2.0)*np.sum(np.sum(Theta**2)) + \
+		(lambd/2.0)*np.sum(np.sum(X**2))
+
+	# =============================================================
+
+	return J
+
+def COFIGradients(params, Y, R, num_users, num_products, num_features, lambd):
+	# params es un vector de dimensiones num_features*num_products*2
+	X = params[:num_products*num_features].reshape(num_products, num_features)
+	Theta = params[(-num_users*num_features):].reshape(num_users, num_features)
+
+	X_grad = np.zeros(X.shape);
+	Theta_grad = np.zeros(Theta.shape);
+
+	X_grad = np.dot(((np.dot(X,Theta.T) - Y) * R), Theta) + lambd * X
+	Theta_grad = np.dot(((np.dot(X,Theta.T) - Y) * R).T, X) + lambd * Theta
+	
+	params_grad = np.concatenate((X_grad.flatten(), Theta_grad.flatten()))
+	return params_grad
+
+
+def COFINormalizeRatings(Y, R):
+	(m,n) = Y.shape
+	Ymean = np.zeros((m,1))
+	Ynorm = np.zeros(Y.shape)
+	for i in range(m):
+		idx = R[i,].nonzero()
+		Ymean[i] = np.mean(Y[i,].take(idx))
+		for j in idx:
+			Ynorm[i,j] = Y[i,j] - Ymean[i]
+	return Ynorm, Ymean
+
+
+def COFIGradientDescent(params, Y, R, num_users, num_products, num_features, lambd, alpha, num_iters):
+	""" 
+		funcion para ejecutar el algoritmo de descenso de 
+		gradiente, esta funcion encuentra los valores optimos
+		para el modelo.
+		ENTRADAS:
+			- X: vector de entrenamiento
+			- y: vector de salidas
+			- theta: vector de parametros del modelo
+			- alpha: factor de aprendizaje
+			- num_iters: numero de iteraciones para el algoritmo
+		SALIDAS:
+		Devuelve una tupla con 2 arrays:
+			- theta: parametros sintonizados
+			- J_history: vector con la evolucion de los costos
+	"""
+
+	J_history = np.zeros(num_iters)	#vector con los costos
+				#vector con las derivadas
+	for it in range(num_iters):
+		
+		params = params - alpha*COFIGradients(params, Y, R, num_users, num_products, num_features, lambd)
+		#print "theta:",theta
+		J_history[it] = COFICostFunction(params, Y, R, num_users, num_products, num_features, lambd)
+		print it, " costo:" ,J_history[it]
+		#J_history[iter] = computeCost
+	
+	return (params, J_history)
+

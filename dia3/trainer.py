@@ -6,6 +6,8 @@
 #****************************************************************/
 
 #modulos necesarios
+import os
+
 from sklearn.externals import joblib	#utilidad para salvar datos
 from sklearn import datasets			# "  "    para importar el dataset
 from skimage.feature import hog 		# funcion para extraer hog
@@ -17,7 +19,13 @@ import time
 import cv2
 import random
 
+import affinity, multiprocessing 	# para todos los nucleos (np)
+
+affinity.set_process_affinity_mask(0,2**multiprocessing.cpu_count()-1)
+
+
 print "importando dataset..."
+
 
 #descargamos dataset para digitos escritos a mano
 dataset = datasets.fetch_mldata("MNIST Original")
